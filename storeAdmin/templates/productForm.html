@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    {% if show_alert %}
+    <script>
+        alert("Product Successfully Added!")
+    </script>
+    {% endif %}
+
+    <nav class="navbar bg-primary text-white">
+        <div class="container-fluid d-inline">
+            {% for manager in managers %}
+              <h1><a class="navbar-brand">{{manager.storename}}</a></h1>
+            {% endfor %}
+            </form>
+        </div>
+        <div class="d-inline-flex">
+            <a href="{% url 'store' %}"><button type="button" class="btn btn-success">Live Preview</button></a>
+        </div>        
+    </nav>
+
+
+    <div class="container  mt-5">
+        <div class="row">
+            <div class="col-sm">
+                <h1>Add Product</h1>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="productName">Name</label>
+                        <input type="text" class="form-control" id="pname" placeholder="Name of product" name="pName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Description</label>
+                        <textarea class="form-control" id="pdescription" placeholder="Description of product" name="pDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price</label>
+                        <input type="number" class="form-control" id="pprice" placeholder="Price of product" name="pPrice" required>
+                    </div>      
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col">
+                <h1>Products</h1>
+                {% for product in products %}
+                    <div class="card border-primary mb-3 ">
+                        <div class="card-body text-primary d-flex justify-content-between">
+                            <div class="">
+                                <h5 class="card-title">{{product.pName}}</h5>
+                                 <h6 class="card-subtitle mb-2 text-muted">₹{{product.pPrice}}</h6>
+                            </div>
+                            <div class=" d-inline-flex">
+                                <div class="mr-2">
+                                    <form action="{% url 'update_product' product.id %}">
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+                                </div>
+                                
+                                <form action="{% url 'delete_product' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>                        
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
