@@ -6,22 +6,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import StoreManager
+from django.contrib.auth.models import User
 
 ## Login as old Store Manager
 def login_view(request):
-
-    from django.contrib.auth.models import User
-    print(User.objects.filter(username="vii").exists())
-
-
+  
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        print(f"username: {username}, password: {password}")
-
         user = authenticate(request, username=username, password=password)
-        print(user)
 
         if user is not None:
             login(request, user)
@@ -34,11 +28,8 @@ def login_view(request):
 def register(request):
 
     if request.method == 'POST':
-        name = request.POST.get('name')
-        storename = request.POST.get('storename')
         username = request.POST.get('username')
         email = request.POST.get('email')
-        whatsapp = request.POST.get('whatsapp')
         password = request.POST.get('password')
 
         if User.objects.filter(username=username).exists():
@@ -46,26 +37,43 @@ def register(request):
             return render(request, 'register.html')
         
         user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()        
-        return redirect('launch')
+        user.save()
+
+        # Auto-login the user
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)        
+            return redirect('launch')
 
     return render(request, 'register.html')
 
 # Launch Your Store:
+@login_required
 def launch(request):
+
     if request.method=='POST':
         name = request.POST.get('name')
         storename = request.POST.get('storename')
         whatsapp = request.POST.get('whatsapp')
 
+        user = request.user # get current logged user
+
+        if StoreManager.objects.filter(user=user).exists():
+            messages.error(request, "Store already launched")
+            return redirect('product')
+
         manager = StoreManager(
+            user = user,
             name = name,
             storename = storename,
+            username = user.username,
+            email = user.email,
             whatsapp = whatsapp
         )
 
         manager.save()
         return redirect('product')
+    
     return render(request, 'launch.html')
     
 
