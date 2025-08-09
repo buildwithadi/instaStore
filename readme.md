@@ -6,7 +6,7 @@ InstaStore is a lightweight, easy-to-use web application that enables Instagram 
 
 ## 🚀 Features
 
-- 🧑‍🤝‍🧑Multi Vendor Support (There will be multiple vendor for each Store)
+- 🧑‍🤝‍🧑 Multi Vendor Support (There will be multiple vendor for each Store)
 - 🔐 Seller Dashboard to add & manage products
 - 🛍️ Customer-facing product catalog page
 - 🧾 Order system that redirects to WhatsApp with pre-filled order details
@@ -17,7 +17,7 @@ InstaStore is a lightweight, easy-to-use web application that enables Instagram 
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: HTML, CSS, JavaScript (Tailwind optional)
+- **Frontend**: HTML,Bootstrap CSS, JavaScript
 - **Backend**: Django (Python)
 - **Database**: SQLite (default), easily switchable to PostgreSQL
 - **Order Integration**: WhatsApp `wa.me` links with auto-filled order details
