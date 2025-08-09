@@ -21,7 +21,7 @@ InstaStore is a lightweight, easy-to-use web application that enables Instagram 
 - **Backend**: Django (Python)
 - **Database**: SQLite (default), easily switchable to PostgreSQL
 - **Order Integration**: WhatsApp `wa.me` links with auto-filled order details
-- **Hosting**: DigitalOcean
+- **Hosting**: Render
 - **Version Control**: Git + GitHub
 
 ---
