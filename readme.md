@@ -24,3 +24,8 @@ InstaStore is a lightweight, easy-to-use web application that enables Instagram 
 - **Version Control**: Git + GitHub
 
 ---
+
+### How to Run the project?
+
+- `pip install -r requirements.txt`
+- `python manage.py runserver`

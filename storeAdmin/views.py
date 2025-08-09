@@ -83,23 +83,25 @@ def product(request):
     show_alert = False
 
     products = Product.objects.all()
-    managers = StoreManager.objects.all()
+    manager = StoreManager.objects.all()
 
     if request.method == "POST":  # if the submit button is clicked -> then we save the product
         pName = request.POST.get("pName")
         pDescription = request.POST.get("pDescription")
         pPrice = request.POST.get("pPrice")
+        pImage = request.FILES.get("pImage")
 
         product = Product( # we create a new object name product for 'Product' model
             pName = pName,
             pDescription = pDescription,
             pPrice = pPrice,
+            pImage = pImage
         )
 
         product.save() 
         show_alert = True
         return redirect('product') # then we redirect to the url pattern having name = 'product'
-    return render(request,'productForm.html',{'show_alert':show_alert, 'products':products, 'managers':managers}) # if post isn't called we render the 'productForm.html' template and all the products in Product module(database).
+    return render(request,'productForm.html',{'show_alert':show_alert, 'products':products, 'manager':manager}) # if post isn't called we render the 'productForm.html' template and all the products in Product module(database).
 
 # This function is for deleting the product
 @login_required

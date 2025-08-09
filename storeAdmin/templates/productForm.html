@@ -10,12 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <style>        
+    <style>     
+    
         body {
             margin:0;
             padding: 0;
             font-family: 'Space Grotesk';
-            background: rgb(255, 255, 255);
         }
 
         .form-title {
@@ -127,8 +127,8 @@
     
     <div class="row g-3 mt-4 ">
         <div class="col-md-5 left-column d-flex justify-content-center">
-            <form method="post">
-                <span class="form-title">Add New Product👕</span>
+            <form method="post" enctype="multipart/form-data">
+                <span class="form-title">Hey, {{ manager.name }}</span>
                 {% csrf_token %}
                 <div class="mt-3">
                     <!-- product name  -->
@@ -137,6 +137,7 @@
                         <input type="text" class="form-control form-control-lg" id="pName" name="pName" placeholder="Enter Your Product Name">
                     </div>
 
+                    
                     <!-- product description -->
                     <div class="mb-3">
                         <h2><label class="form-label">Product Description</label></h2>
@@ -169,27 +170,33 @@
                 <div class="mb-3 form-title">
                     Products💸
                 </div>
-
-                <div class="container mt-5">
+                {% for product in products %}
+                  <div class="container mt-5">
                     <div class="product-card">
                         <!-- Product Image -->
-                        <img src="{% static 'images/3dsnake.webp' %}" alt="3D Snake" class="product-img">
+                        <img src="{{ product.pImage.url }}" alt="3D Snake" class="product-img">
 
                         <!-- Product Info -->
                         <div class="product-details">
-                        <h3>3D Snake</h3>
-                        <p style="font-size: 1.5rem;">₹999/-</p>
+                        <h3>{{product.pName}}</h3>
+                        <p style="font-size: 1.5rem;">₹{{product.pPrice}}/-</p>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="text-end ">
-                        <button class="btn btn-lg btn-primary d-block m-2">Update</button>
-                        <button class="btn btn-lg btn-danger d-block m-2">Delete</button>
+                        <div class="text-end">
+                            <form action="{% url 'update_product' product.id %}">
+                                 <button type="submit" class="btn btn-lg btn-primary d-block m-2">Update</button>   
+                            </form>
+
+                            <form action="{% url 'delete_product' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-lg btn-danger d-block m-2">Delete</button>
+                            </form>                       
                         </div>
                     </div>
                 </div>
-                
-                 
+                {% endfor %}
+                                                            
             </div>  
         </div>
     </div>
